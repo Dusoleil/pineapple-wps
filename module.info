@@ -1,0 +1,6 @@
+{
+    "title": "wps",
+    "description": "WPS attacks such as brute force pin and pixie dust",
+    "version": "1.0",
+    "author": "dusoleil"
+}
