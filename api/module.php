@@ -17,7 +17,7 @@ class wps extends Module
     private function checkConnection()
     {
         $conn = @fsockopen("www.wifipineapple.com",80);
-        if ($conn)
+        if($conn)
         {
             fclose($conn);
             return true;
@@ -25,41 +25,53 @@ class wps extends Module
         return false;
     }
 
-    private function deps()
+    private function handleDepList($deps, $install)
     {
-        $goodtogo = false;
+        $goodtogo = true;
         $error = "";
-        $reaver = $this->checkDependency("reaver");
-        $pixie = $this->checkDependency("pixiewps");
-        $goodtogo = $reaver && $pixie;
-        if (!$goodtogo)
+        $if($install && !$this->checkConnection())
         {
-            if ($this->checkConnection())
+            $goodtogo = false;
+            $error = "No Internet Connection";
+        }
+        else
+        {
+            foreach($deps as $dep)
             {
-                $reaver = $this->installDependency("reaver");
-                //reaver's wash requires a libpcap .so that isn't there in the default libpcap on the pineapple
-                //openwrt's newer libpcap package adds a symlink for the missing library to the installed libpcap library
-                exec("opkg upgrade libpcap");
-                $pixie = $this->installDependency("pixiewps");
-                $goodtogo = $reaver && $pixie;
-                if (!$goodtogo)
+                if($install)
+                    $good = $this->installDependency($dep);
+                else
+                    $good = $this->checkDependency($dep);
+                $goodtogo = $goodtogo && $good;
+            }
+            if(!$goodtogo)
+            {
+                if($this->checkRunning("opkg"))
                 {
-                    if ($this->checkRunning("opkg"))
-                    {
-                        $error = "opkg already running";
-                    }
-                    else
-                    {
-                        $error = "opkg failure";
-                    }
+                    $error = "opkg already running";
+                }
+                else
+                {
+                    $error = "opkg failure";
                 }
             }
-            else
-            {
-                $error = "No Internet Connection";
-            }
         }
-        $this->response = array("deps" => $goodtogo, "error" => $error);
+        return array("deps" => $goodtogo, "error" => $error);
+    }
+
+    private function deps()
+    {
+        $deps = array("coreutils-timeout","reaver","pixiewps");
+        $ret = handleDepList($deps, false);
+        if(!$ret['deps'])
+        {
+            $ret = handleDepList($deps, true);
+            //reaver's wash requires a libpcap .so that isn't there in the default libpcap on the pineapple
+            //openwrt's newer libpcap package adds a symlink for the missing library to the installed libpcap library
+            if($ret['deps'])
+                exec("opkg upgrade libpcap");
+        }
+        $this->response = $ret;
     }
 
     private function getInterfaces()
