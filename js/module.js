@@ -1,7 +1,4 @@
 registerController('MainController', ['$api', '$scope', function($api, $scope) {
-    $scope.greeting = "";
-    $scope.content = "";
-
     $scope.depsdone = false;
     $scope.depsgood = false;
     $scope.depserr = "";
@@ -19,17 +16,6 @@ registerController('MainController', ['$api', '$scope', function($api, $scope) {
             console.log(response)
         }
     );
-
-    $api.request({
-        module: 'wps',
-        action: 'getContents'
-    }, function(response) {
-        if (response.success === true) {
-            $scope.greeting = response.greeting;
-            $scope.content = response.content;
-        }
-        console.log(response)
-    });
 }]);
 
 registerController('WashController', ['$api', '$scope', function($api, $scope) {
