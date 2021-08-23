@@ -1,13 +1,20 @@
-<!-- This HTML has bootstrap classes such as "col-md-12" and "jumbotron". For more information, see http://getbootstrap.com/css/ -->
-<!-- This HTML makes use of AngularJS data-bindings and controllers. For more information, see https://docs.angularjs.org/api/ -->
-<!-- Don't forget to look at the module.js and module.php files too! -->
-<!-- This HTML is a template for generated modules via the Module Maker. -->
-
-<div class="col-md-12" ng-controller="ExampleController"> <!-- This special argument wires the HTML to your controller (in module.js) -->
+<div class="col-md-12" ng-controller="MainController">
 	<div class="jumbotron" style="border-radius: 7px;">
 		<div class="container">
-			<h1>{{ greeting }}</h1> <!-- This is an AngularJS data binding -->
-			<p>{{ content }}</p>    <!-- They represent the $scope.xxxxx inside of your module.js -->
+            <div ng-show="!depsdone">
+                <p>Waiting on Dependencies... <img src="img/throbber.gif"></img></p>
+            </div>
+            <div ng-show="depsdone && !depsgood">
+                <p>Something went wrong with dependencies...</p>
+                <p>If you refreshed the page while dependencies were installing, you will see an error until the installation is done.</p>
+                <p>Try checking your internet connection or waiting a bit and refreshing the page.</p>
+                <p>If the problem persists, you may need to check things manually via ssh.</p>
+                <p>Error: {{ depserr }}</p>
+            </div>
+            <div ng-show="depsdone && depsgood">
+                <h1>{{ greeting }}</h1>
+                <p>{{ content }}</p>
+            </div>
 		</div>
 	</div>
 </div>

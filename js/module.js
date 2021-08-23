@@ -1,18 +1,33 @@
-/* This is our AngularJS controller, called "ExampleController". */
-registerController('ExampleController', ['$api', '$scope', function($api, $scope) {
-    /* It is good practice to 'initialize' your variables with nothing */
+registerController('MainController', ['$api', '$scope', function($api, $scope) {
     $scope.greeting = "";
     $scope.content = "";
 
-    /* Use the API to send a request to your module.php */
-    $api.request({
-        module: 'wps', //Your module name
-        action: 'getContents'   //Your action defined in module.php
-    }, function(response) {
-        if (response.success === true) {           //If the response has an index called "success" that returns the boolean "true", then:
-            $scope.greeting = response.greeting;   // Set the variable $scope.greeting to the response index "greeting"
-            $scope.content = response.content;     // Set the variable $scope.content to the response index "content".
+    $scope.depsdone = false;
+    $scope.depsgood = false;
+    $scope.depserr = "";
+
+    $api.request(
+        {
+            module: 'wps',
+            action: 'deps'
+        },
+        function(response)
+        {
+            $scope.depsdone = true;
+            $scope.depsgood = response.deps;
+            $scope.depserr = response.error;
+            console.log(response)
         }
-        console.log(response) //Log the response to the console, this is useful for debugging.
+    );
+
+    $api.request({
+        module: 'wps',
+        action: 'getContents'
+    }, function(response) {
+        if (response.success === true) {
+            $scope.greeting = response.greeting;
+            $scope.content = response.content;
+        }
+        console.log(response)
     });
 }]);

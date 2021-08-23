@@ -1,27 +1,73 @@
 <?php namespace pineapple;
 
-
-/* The class name must be the name of your module, without spaces. */
-/* It must also extend the "Module" class. This gives your module access to API functions */
 class wps extends Module
 {
     public function route()
     {
         switch ($this->request->action) {
-            case 'getContents':    // If you request the action "getContents" from your Javascript, this is where the PHP will see it, and use the correct function
-            $this->getContents();  // $this->getContents(); refers to your private function that contains all of the code for your request.
-            break;                 // Break here, and add more cases after that for different requests.
+            case 'getContents':
+                $this->getContents();
+                break;
+            case 'deps':
+                $this->deps();
+                break;
         }
     }
 
-    private function getContents()  // This is the function that will be executed when you send the request "getContents".
+    private function checkConnection()
     {
-        $this->response = array("success" => true,    // define $this->response. We can use an array to set multiple responses.
+        $conn = @fsockopen("www.wifipineapple.com",80);
+        if ($conn)
+        {
+            fclose($conn);
+            return true;
+        }
+        return false;
+    }
+
+    private function deps()
+    {
+        $goodtogo = false;
+        $error = "";
+        $reaver = $this->checkDependency("reaver");
+        $pixie = $this->checkDependency("pixiewps");
+        $goodtogo = $reaver && $pixie;
+        if (!$goodtogo)
+        {
+            if ($this->checkConnection())
+            {
+                $reaver = $this->installDependency("reaver");
+                //reaver's wash requires a libpcap .so that isn't there in the default libpcap on the pineapple
+                //openwrt's newer libpcap package adds a symlink for the missing library to the installed libpcap library
+                exec("opkg upgrade libpcap");
+                $pixie = $this->installDependency("pixiewps");
+                $goodtogo = $reaver && $pixie;
+                if (!$goodtogo)
+                {
+                    if ($this->checkRunning("opkg"))
+                    {
+                        $error = "opkg already running";
+                    }
+                    else
+                    {
+                        $error = "opkg failure";
+                    }
+                }
+            }
+            else
+            {
+                $error = "No Internet Connection";
+            }
+        }
+        $this->response = array("deps" => $goodtogo, "error" => $error);
+    }
+
+    private function getContents()
+    {
+        $this->response = array("success" => true,
                                 "greeting" => "Hey there!",
                                 "content" => "This is the HTML template for your new module! The example shows you the basics of using HTML, AngularJS and PHP to seamlessly pass information to and from Javascript and PHP and output it to HTML.");
     }
 }
 
-
-
-
+?>
