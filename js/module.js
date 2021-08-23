@@ -51,6 +51,8 @@ registerController('WashController', ['$api', '$scope', function($api, $scope) {
                 }
             );
         });
+
+    $scope.getInterfaces();
 }]);
 
 registerController('ReaverController', ['$api', '$scope', function($api, $scope) {
@@ -72,4 +74,6 @@ registerController('ReaverController', ['$api', '$scope', function($api, $scope)
                 }
             );
         });
+
+    $scope.getInterfaces();
 }]);
