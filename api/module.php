@@ -29,7 +29,7 @@ class wps extends Module
     {
         $goodtogo = true;
         $error = "";
-        $if($install && !$this->checkConnection())
+        if($install && !$this->checkConnection())
         {
             $goodtogo = false;
             $error = "No Internet Connection";
@@ -38,21 +38,34 @@ class wps extends Module
         {
             foreach($deps as $dep)
             {
-                if($install)
-                    $good = $this->installDependency($dep);
-                else
-                    $good = $this->checkDependency($dep);
-                $goodtogo = $goodtogo && $good;
-            }
-            if(!$goodtogo)
-            {
-                if($this->checkRunning("opkg"))
+                $chk = $dep;
+                $pck = $dep;
+                if(is_array($dep))
                 {
-                    $error = "opkg already running";
+                    $chk = $dep[0];
+                    $pck = $dep[1];
+                }
+                if($install)
+                {
+                    $goodtogo = $this->installDependency($pck);
+                    if($chk != $pck)
+                        $goodtogo = $this->checkDependency($chk);
                 }
                 else
                 {
-                    $error = "opkg failure";
+                    $goodtogo = $this->checkDependency($chk);
+                }
+                if(!$goodtogo)
+                {
+                    if($this->checkRunning("opkg"))
+                    {
+                        $error = "opkg already running";
+                    }
+                    else
+                    {
+                        $error = "opkg failure";
+                    }
+                    break;
                 }
             }
         }
@@ -61,11 +74,11 @@ class wps extends Module
 
     private function deps()
     {
-        $deps = array("coreutils-timeout","reaver","pixiewps");
-        $ret = handleDepList($deps, false);
+        $deps = array(array("timeout","coreutils-timeout"),"reaver","pixiewps");
+        $ret = $this->handleDepList($deps, false);
         if(!$ret['deps'])
         {
-            $ret = handleDepList($deps, true);
+            $ret = $this->handleDepList($deps, true);
             //reaver's wash requires a libpcap .so that isn't there in the default libpcap on the pineapple
             //openwrt's newer libpcap package adds a symlink for the missing library to the installed libpcap library
             if($ret['deps'])
