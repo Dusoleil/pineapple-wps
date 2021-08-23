@@ -2,6 +2,8 @@
 
 class wps extends Module
 {
+    private $washlog = "/tmp/washscan.log";
+
     public function route()
     {
         switch ($this->request->action) {
@@ -10,6 +12,9 @@ class wps extends Module
                 break;
             case 'getInterfaces':
                 $this->getInterfaces();
+                break;
+            case 'washScan':
+                $this->washScan();
                 break;
         }
     }
@@ -92,6 +97,14 @@ class wps extends Module
         $interfaces = array();
         exec("iwconfig 2>/dev/null | grep 'wlan' | grep 'mon' | awk '{print $1}'",$interfaces);
         $this->response = array("interfaces" => $interfaces);
+    }
+
+    private function washScan()
+    {
+        exec("killall -9 wash");
+        unlink($this->washlog);
+        $cmd = "timeout ".$this->request->timeout ." wash -i ".$this->request->interface ." >".$this->washlog;
+        $this->execBackground($cmd);
     }
 }
 

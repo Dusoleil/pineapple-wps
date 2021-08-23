@@ -21,6 +21,7 @@ registerController('MainController', ['$api', '$scope', function($api, $scope) {
 registerController('WashController', ['$api', '$scope', function($api, $scope) {
     $scope.interfaces = [];
     $scope.selectedInterface = "";
+    $scope.washTimeout = 15;
 
     $scope.getInterfaces = (function()
         {
@@ -34,6 +35,21 @@ registerController('WashController', ['$api', '$scope', function($api, $scope) {
                     $scope.interfaces = response.interfaces;
                     $scope.selectedInterface = $scope.interfaces[0];
                     console.log(response)
+                }
+            );
+        });
+
+    $scope.washScan = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'washScan',
+                    interface: $scope.selectedInterface,
+                    timeout: $scope.washTimeout
+                },
+                function(response)
+                {
                 }
             );
         });

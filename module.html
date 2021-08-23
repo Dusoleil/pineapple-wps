@@ -19,15 +19,30 @@
                 <h3 class="panel-title">Scan For WPS Enabled APs</h3>
             </div>
             <div id="Wash" class="panel-body panel-collapse collapse in">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        Interface
-                    </span>
-                    <select class="form-control" ng-model="selectedInterface" ng-disabled="modinterface">
-                        <option ng-repeat="interface in interfaces">{{ interface }}</option>
-                    </select>
-                </div>
-                <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
+                <form>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Interface
+                        </span>
+                        <select class="form-control" ng-model="selectedInterface">
+                            <option ng-repeat="interface in interfaces">{{ interface }}</option>
+                        </select>
+                    </div>
+                    <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Scan Length (seconds)
+                        </span>
+                        <input class="form-control" type="number" ng-model="washTimeout" ng-init="15"></input>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="washScan()">
+                                <span>
+                                    Scan
+                                </span>
+                            </button>
+                        <span>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="panel panel-default" ng-controller="ReaverController">
@@ -39,7 +54,7 @@
                     <span class="input-group-addon">
                         Interface
                     </span>
-                    <select class="form-control" ng-model="selectedInterface" ng-disabled="modinterface">
+                    <select class="form-control" ng-model="selectedInterface">
                         <option ng-repeat="interface in interfaces">{{ interface }}</option>
                     </select>
                 </div>
