@@ -1,21 +1,25 @@
 <div class="col-md-12" ng-controller="MainController">
-	<div class="jumbotron" style="border-radius: 7px;">
-		<div class="container">
-            <div ng-show="!depsdone">
-                <p>Waiting on Dependencies... <img src="img/throbber.gif"></img></p>
-            </div>
-            <div ng-show="depsdone && !depsgood">
-                <p>Something went wrong with dependencies...</p>
-                <p>If you refreshed the page while dependencies were installing, you will see an error until the installation is done.</p>
-                <p>Try checking your internet connection or waiting a bit and refreshing the page.</p>
-                <p>If the problem persists, you may need to check things manually via ssh.</p>
-                <p>Error: {{ depserr }}</p>
-            </div>
-            <div ng-show="depsdone && depsgood">
+    <div class="panel panel-info" ng-show="!depsdone">
+        <div class="panel-body bg-info">
+            <p>Waiting on Dependencies... <img src="img/throbber.gif"></img></p>
+        </div>
+    </div>
+    <div class="panel panel-warning" ng-show="depsdone && !depsgood">
+        <div class="panel-body bg-warning">
+            <p>Something went wrong with dependencies...</p>
+            <p>If you refreshed the page while dependencies were installing, you will see an error until the installation is done.</p>
+            <p>Try checking your internet connection or waiting a bit and refreshing the page.</p>
+            <p>If the problem persists, you may need to check things manually via ssh.</p>
+            <p>Error: <span class="text-danger">{{ depserr }}</span></p>
+        </div>
+    </div>
+    <div ng-show="depsdone && depsgood">
+        <div class="jumbotron" style="border-radius: 7px;">
+            <div class="container">
                 <h1>{{ greeting }}</h1>
                 <p>{{ content }}</p>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 
