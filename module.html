@@ -20,6 +20,38 @@
                 <p>{{ content }}</p>
             </div>
         </div>
+        <div class="panel panel-default" ng-controller="WashController">
+            <div class="panel-heading" data-toggle="collapse" data-target="#Wash">
+                <h3 class="panel-title">Scan For WPS Enabled APs</h3>
+            </div>
+            <div id="Wash" class="panel-body panel-collapse collapse in">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        Interface
+                    </span>
+                    <select class="form-control" ng-model="selectedInterface" ng-disabled="modinterface">
+                        <option ng-repeat="interface in interfaces">{{ interface }}</option>
+                    </select>
+                </div>
+                <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
+            </div>
+        </div>
+        <div class="panel panel-default" ng-controller="ReaverController">
+            <div class="panel-heading" data-toggle="collapse" data-target="#Reaver">
+                <h3 class="panel-title">Crack WPS</h3>
+            </div>
+            <div id="Reaver" class="panel-body panel-collapse collapse in">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        Interface
+                    </span>
+                    <select class="form-control" ng-model="selectedInterface" ng-disabled="modinterface">
+                        <option ng-repeat="interface in interfaces">{{ interface }}</option>
+                    </select>
+                </div>
+                <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
+            </div>
+        </div>
     </div>
 </div>
 
