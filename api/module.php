@@ -11,6 +11,9 @@ class wps extends Module
             case 'deps':
                 $this->deps();
                 break;
+            case 'getInterfaces':
+                $this->getInterfaces();
+                break;
         }
     }
 
@@ -69,5 +72,12 @@ class wps extends Module
                                 "content" => "This is the HTML template for your new module! The example shows you the basics of using HTML, AngularJS and PHP to seamlessly pass information to and from Javascript and PHP and output it to HTML.");
     }
 }
+
+    private function getInterfaces()
+    {
+        $interfaces = array();
+        exec("iwconfig 2>/dev/null | grep 'wlan' | grep 'mon' | awk '{print $1}'",$interfaces);
+        $this->response = array("interfaces" => $interfaces);
+    }
 
 ?>
