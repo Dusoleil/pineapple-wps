@@ -112,6 +112,13 @@
                         <select class="form-control" ng-model="bssid">
                             <option ng-repeat="session in sessions">{{ session }}</option>
                         </select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="deleteCrack()">
+                                <span>
+                                    Delete
+                                </span>
+                            </button>
+                        </span>
                     </div>
                 </form>
                 <br>

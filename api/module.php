@@ -35,6 +35,9 @@ class wps extends Module
             case 'readCrack':
                 $this->readCrack();
                 break;
+            case 'deleteCrack':
+                $this->deleteCrack();
+                break;
         }
     }
 
@@ -183,6 +186,15 @@ class wps extends Module
         else
             $crack = "No log found or log empty.  You need to start a crack first!";
         $this->response = array("crack" => $crack);
+    }
+
+    private function deleteCrack()
+    {
+        $sess = str_replace(":", "", trim($this->request->bssid));
+        $log = $this->reaverlogdir .$sess .".log";
+        $sessfile = $this->reaverlogdir .$sess .".wpc";
+        unlink($log);
+        unlink($sessfile);
     }
 }
 

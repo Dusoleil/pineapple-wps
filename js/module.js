@@ -165,6 +165,8 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                 {
                     if(!response.error)
                         $scope.sessions = response;
+                    else
+                        $scope.sessions = [];
                     console.log(response);
                 }
             );
@@ -181,6 +183,21 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                 function(response)
                 {
                     $scope.crackResults = response.crack;
+                }
+            );
+        });
+
+    $scope.deleteCrack = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'deleteCrack',
+                    bssid: $scope.bssid
+                },
+                function(response)
+                {
+                    $scope.reaverSessions();
                 }
             );
         });
