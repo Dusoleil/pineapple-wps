@@ -33,14 +33,27 @@
                         <span class="input-group-addon">
                             Scan Length (seconds)
                         </span>
-                        <input class="form-control" type="number" ng-model="washTimeout" ng-init="15"></input>
+                        <input class="form-control" type="number" ng-model="washTimeout">
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="washScan()">
                                 <span>
                                     Scan
                                 </span>
                             </button>
-                        <span>
+                            <button class="btn btn-default" ng-click="stopScan()">
+                                <span>
+                                    Stop Scan
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="col-md-12 pull-right">
+                            <label>
+                                Auto Stop Services
+                            </label>
+                            <input type="checkbox" ng-model="$parent.autoStopServices" ng-change="toggleAutoStopServices()">
+                        </span>
                     </div>
                 </form>
                 <br>

@@ -1,7 +1,13 @@
-registerController('MainController', ['$api', '$scope', function($api, $scope) {
+registerController('MainController', ['$api', '$scope', '$cookies', function($api, $scope, $cookies) {
     $scope.depsdone = false;
     $scope.depsgood = false;
     $scope.depserr = "";
+    $scope.autoStopServices = $cookies.get("wpsmod-AutoStopServices") === 'true' ?? false;
+
+    $scope.toggleAutoStopServices = (function()
+        {
+            $cookies.put("wpsmod-AutoStopServices", $scope.autoStopServices);
+        });
 
     $api.request(
         {
@@ -55,6 +61,19 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
             );
         });
 
+    $scope.stopScan = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'stopScan'
+                },
+                function(response)
+                {
+                }
+            );
+        });
+
     $scope.readScan = (function()
         {
             $api.request(
@@ -69,10 +88,17 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
             );
         });
 
+    $scope.stopServices = (function()
+        {
+            if($parent.autoStopServices)
+                $scope.stopScan();
+            $interval.cancel(scanintervalpromise);
+        });
+
     $scope.getInterfaces();
     $scope.readScan();
     let scanintervalpromise = $interval($scope.readScan,1000);
-    $scope.$on('$destroy',function(){$interval.cancel(scanintervalpromise);});
+    $scope.$on('$destroy',$scope.stopServices);
 }]);
 
 registerController('ReaverController', ['$api', '$scope', function($api, $scope) {

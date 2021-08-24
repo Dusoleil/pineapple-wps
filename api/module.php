@@ -16,6 +16,9 @@ class wps extends Module
             case 'washScan':
                 $this->washScan();
                 break;
+            case 'stopScan':
+                $this->stopScan();
+                break;
             case 'readScan':
                 $this->readScan();
                 break;
@@ -104,10 +107,15 @@ class wps extends Module
 
     private function washScan()
     {
-        exec("killall -9 wash");
+        $this->stopScan();
         unlink($this->washlog);
         $cmd = "timeout ".$this->request->timeout ." wash -i ".$this->request->interface ." >".$this->washlog;
         $this->execBackground($cmd);
+    }
+
+    private function stopScan()
+    {
+        exec("killall -9 wash");
     }
 
     private function readScan()
