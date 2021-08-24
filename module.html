@@ -21,23 +21,23 @@
             <div id="Wash" class="panel-body panel-collapse collapse in">
                 <form>
                     <div class="input-group">
-                        <span class="input-group-addon">
+                        <label for="wash-interface" class="input-group-addon">
                             Interface
-                        </span>
-                        <select class="form-control" ng-model="selectedInterface">
+                        </label>
+                        <select id="wash-interface" class="form-control" ng-model="selectedInterface">
                             <option ng-repeat="interface in interfaces">{{ interface }}</option>
                         </select>
                     </div>
                     <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
                     <div class="input-group">
-                        <span class="input-group-addon">
+                        <label for="wash-length" class="input-group-addon">
                             Scan Length (seconds)
-                        </span>
-                        <input class="form-control" type="number" ng-model="washTimeout">
-                        <span class="input-group-addon">
+                        </label>
+                        <input id="wash-length" class="form-control" type="number" ng-model="washTimeout">
+                        <label for="wash-channel" class="input-group-addon">
                             Channel
-                        </span>
-                        <select class="form-control" ng-model="channel">
+                        </label>
+                        <select id="wash-channel" class="form-control" ng-model="channel">
                             <option ng-repeat="c in ['all',1,2,3,4,5,6,7,8,9,10,11]" ng-init="all">{{ c }}</option>
                         </select>
                         <span class="input-group-btn">
@@ -75,19 +75,19 @@
             <div id="Reaver" class="panel-body panel-collapse collapse in">
                 <form>
                     <div class="input-group">
-                        <span class="input-group-addon">
+                        <label for="reaver-interface" class="input-group-addon">
                             Interface
-                        </span>
-                        <select class="form-control" ng-model="selectedInterface">
+                        </label>
+                        <select id="reaver-interface" class="form-control" ng-model="selectedInterface">
                             <option ng-repeat="interface in interfaces">{{ interface }}</option>
                         </select>
                     </div>
                     <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
                     <div class="input-group">
-                        <span class="input-group-addon">
+                        <label for="reaver-bssid" class="input-group-addon">
                             Target BSSID
-                        </span>
-                        <input class="form-control" type="text" ng-model="bssid">
+                        </label>
+                        <input id="reaver-bssid" class="form-control" type="text" ng-model="bssid">
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="reaverCrack()">
                                 <span>
@@ -112,10 +112,10 @@
                         </span>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon">
+                        <label for="reaver-session" class="input-group-addon">
                             Session
-                        </span>
-                        <select class="form-control" ng-model="bssid">
+                        </label>
+                        <select id="reaver-sesssion" class="form-control" ng-model="bssid">
                             <option ng-repeat="session in sessions">{{ session }}</option>
                         </select>
                         <span class="input-group-btn">
