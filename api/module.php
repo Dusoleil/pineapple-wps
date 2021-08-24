@@ -160,9 +160,11 @@ class wps extends Module
         $crack = '';
         if(file_exists($log))
             exec('tail -n 20 ' .$log, $crack);
-        if(!$crack)
+        if($crack)
+            $crack = join("\n",$crack);
+        else
             $crack = "No log found or log empty.  You need to start a crack first!";
-        $this->response = array("crack" => join("\n",$crack));
+        $this->response = array("crack" => $crack);
     }
 }
 
