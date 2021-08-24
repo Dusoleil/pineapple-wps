@@ -33,7 +33,9 @@
                         <label for="wash-length" class="input-group-addon">
                             Scan Length (seconds)
                         </label>
-                        <input id="wash-length" class="form-control" type="number" ng-model="washTimeout">
+                        <select id="wash-length" class="form-control" ng-model="washTimeout">
+                            <option ng-repeat="t in [15,30,60,300,600]" ng-init="15">{{ t }}</option>
+                        </select>
                         <label for="wash-channel" class="input-group-addon">
                             Channel
                         </label>
