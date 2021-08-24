@@ -115,7 +115,7 @@ class wps extends Module
 
     private function stopScan()
     {
-        exec("killall -9 wash");
+        exec("killall -2 wash");
     }
 
     private function readScan()
