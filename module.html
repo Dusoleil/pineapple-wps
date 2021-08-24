@@ -89,7 +89,7 @@
                         <label for="reaver-bssid" class="input-group-addon">
                             Target BSSID
                         </label>
-                        <input id="reaver-bssid" class="form-control" type="text" ng-model="bssid">
+                        <input id="reaver-bssid" class="form-control" type="text" ng-model="bssid" ng-change="changeSession()">
                         <label for="reaver-channel" class="input-group-addon">
                             Channel
                         </label>
@@ -129,7 +129,7 @@
                         <label for="reaver-session" class="input-group-addon">
                             Session
                         </label>
-                        <select id="reaver-session" class="form-control" ng-model="bssid">
+                        <select id="reaver-session" class="form-control" ng-model="bssid" ng-change="changeSession()">
                             <option ng-repeat="session in sessions">{{ session }}</option>
                         </select>
                         <span class="input-group-btn">

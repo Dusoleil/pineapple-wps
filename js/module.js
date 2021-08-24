@@ -199,6 +199,9 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                 function(response)
                 {
                     $scope.crackResults = response.crack;
+                    if($scope.pin === '')
+                        $scope.pin = response.pin;
+                    $scope.password = response.pass;
                 }
             );
         });
@@ -216,6 +219,12 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                     $scope.reaverSessions();
                 }
             );
+        });
+
+    $scope.changeSession = (function()
+        {
+            $scope.pin = '';
+            $scope.password = '';
         });
 
     $scope.stopServices = (function()

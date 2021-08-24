@@ -194,7 +194,20 @@ class wps extends Module
             $crack = join("\n",$crack);
         else
             $crack = "No log found or log empty.  You need to start a crack first!";
-        $this->response = array("crack" => $crack);
+        $pin = '';
+        $pass = '';
+        if($crack)
+        {
+           exec('grep "WPS pin:" '.$log ." | awk '{print $4}'", $pin);
+           $pin = end($pin);
+           if(!$pin)
+               $pin = '';
+           exec('grep "WPA PSK:" '.$log ." | awk '{print $4}'", $pass);
+           $pass = end($pass);
+           if(!$pass)
+               $pass = '';
+        }
+        $this->response = array("crack" => $crack, "pin" => $pin, "pass" => $pass);
     }
 
     private function deleteCrack()
