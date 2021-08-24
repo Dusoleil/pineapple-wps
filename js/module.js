@@ -28,7 +28,7 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
     $scope.interfaces = [];
     $scope.selectedInterface = "";
     $scope.channel = "all";
-    $scope.washTimeout = 15;
+    $scope.washTimeout = "15";
     $scope.scanResults = "";
 
     $scope.getInterfaces = (function()

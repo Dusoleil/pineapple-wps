@@ -34,13 +34,13 @@
                             Scan Length (seconds)
                         </label>
                         <select id="wash-length" class="form-control" ng-model="washTimeout">
-                            <option ng-repeat="t in [15,30,60,300,600]" ng-init="15">{{ t }}</option>
+                            <option ng-repeat="t in [15,30,60,300,600]">{{ t }}</option>
                         </select>
                         <label for="wash-channel" class="input-group-addon">
                             Channel
                         </label>
                         <select id="wash-channel" class="form-control" ng-model="channel">
-                            <option ng-repeat="c in ['all',1,2,3,4,5,6,7,8,9,10,11]" ng-init="all">{{ c }}</option>
+                            <option ng-repeat="c in ['all',1,2,3,4,5,6,7,8,9,10,11]">{{ c }}</option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="washScan()">
