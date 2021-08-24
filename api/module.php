@@ -144,10 +144,10 @@ class wps extends Module
         $this->stopCrack();
         if(!file_exists($this->reaverlogdir))
             mkdir($this->reaverlogdir);
-        $sess = str_replace(":", "", $this->request->bssid);
+        $sess = str_replace(":", "", trim($this->request->bssid));
         $log = $this->reaverlogdir .$sess .".log";
         $sessfile = $this->reaverlogdir .$sess .".wpc";
-        $cmd = "reaver -i ".$this->request->interface ." -b ".$this->request->bssid ." -s ".$sessfile ." -vv >>".$log;
+        $cmd = "reaver -i ".$this->request->interface ." -b ".trim($this->request->bssid) ." -s ".$sessfile ." -vv >>".$log;
         $this->execBackground($cmd);
     }
 
@@ -173,7 +173,7 @@ class wps extends Module
 
     private function readCrack()
     {
-        $sess = str_replace(":", "", $this->request->bssid);
+        $sess = str_replace(":", "", trim($this->request->bssid));
         $log = $this->reaverlogdir .$sess .".log";
         $crack = '';
         if(file_exists($log))
