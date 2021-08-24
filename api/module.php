@@ -157,10 +157,12 @@ class wps extends Module
     {
         $sess = str_replace(":", "", $this->request->bssid);
         $log = $this->reaverlogdir .$sess .".log";
-        $crack = @file_get_contents($log);
+        $crack = '';
+        if(file_exists($log))
+            exec('tail -n 20 ' .$log, $crack);
         if(!$crack)
             $crack = "No log found or log empty.  You need to start a crack first!";
-        $this->response = array("crack" => $crack);
+        $this->response = array("crack" => join("\n",$crack));
     }
 }
 
