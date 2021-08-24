@@ -153,7 +153,13 @@ class wps extends Module
         $sess = str_replace(":", "", trim($this->request->bssid));
         $log = $this->reaverlogdir .$sess .".log";
         $sessfile = $this->reaverlogdir .$sess .".wpc";
-        $cmd = "reaver -i ".$this->request->interface ." -b ".trim($this->request->bssid) ." -s ".$sessfile ." -vv >>".$log;
+        $cmd = "reaver -i ".$this->request->interface;
+        $cmd .= " -b ".trim($this->request->bssid);
+        $cmd .= $this->request->channel ? " -c ".$this->request->channel : "";
+        $cmd .= $this->request->pixie ? " -K" : "";
+        $cmd .= $this->request->pin ? " -p ".$this->request->pin : "";
+        $cmd .= " -s ".$sessfile;
+        $cmd .= " -vv >>".$log;
         $this->execBackground($cmd);
     }
 

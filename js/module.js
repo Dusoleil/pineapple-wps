@@ -107,8 +107,12 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
     $scope.interfaces = [];
     $scope.selectedInterface = "";
     $scope.bssid = "";
+    $scope.channel = "auto";
+    $scope.pixieDust = false;
     $scope.sessions = [];
     $scope.crackResults = "";
+    $scope.pin = "";
+    $scope.password = "";
 
     $scope.getInterfaces = (function()
         {
@@ -126,20 +130,33 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
             );
         });
 
-    $scope.reaverCrack = (function()
+    runReaver = (function(pin)
         {
             $api.request(
                 {
                     module: 'wps',
                     action: 'reaverCrack',
                     interface: $scope.selectedInterface,
-                    bssid: $scope.bssid
+                    bssid: $scope.bssid,
+                    channel: $scope.channel === 'auto' ? '' : $scope.channel,
+                    pixie: pin ? false : $scope.pixieDust,
+                    pin: pin
                 },
                 function(response)
                 {
                     $scope.reaverSessions();
                 }
             );
+        });
+
+    $scope.reaverCrack = (function()
+        {
+            runReaver("");
+        });
+
+    $scope.reaverPin = (function()
+        {
+            runReaver($scope.pin);
         });
 
     $scope.stopCrack = (function()

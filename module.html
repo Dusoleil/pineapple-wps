@@ -90,6 +90,12 @@
                             Target BSSID
                         </label>
                         <input id="reaver-bssid" class="form-control" type="text" ng-model="bssid">
+                        <label for="reaver-channel" class="input-group-addon">
+                            Channel
+                        </label>
+                        <select id="reaver-channel" class="form-control" ng-model="channel">
+                            <option ng-repeat="c in ['auto',1,2,3,4,5,6,7,8,9,10,11]">{{ c }}</option>
+                        </select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="reaverCrack()">
                                 <span>
@@ -105,10 +111,16 @@
                     </div>
                     <div class="row">
                         <span class="col-sm-12">
-                            <span class="pull-right">
+                            <span class="pull-right" style="padding-left:20px">
                                 <label>
                                     Auto Stop Services
                                     <input type="checkbox" ng-model="$parent.autoStopServices" ng-change="toggleAutoStopServices()">
+                                </label>
+                            </span>
+                            <span class="pull-right">
+                                <label>
+                                    Pixie Dust
+                                    <input type="checkbox" ng-model="pixieDust">
                                 </label>
                             </span>
                         </span>
@@ -131,6 +143,27 @@
                 </form>
                 <br>
                 <pre class="well">{{ crackResults }}</pre>
+                <form>
+                    <div class="input-group">
+                        <label for="reaver-pin" class="input-group-addon">
+                            WPS Pin
+                        </label>
+                        <input id="reaver-pin" class="form-control" type="text" ng-model="pin">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="reaverPin()">
+                                <span>
+                                    Try Pin
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <label for="reaver-pass" class="input-group-addon">
+                            WPA Pass
+                        </label>
+                        <input id="reaver-pass" class="form-control" type="text" ng-model="password" disabled>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
