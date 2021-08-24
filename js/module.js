@@ -163,10 +163,7 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                 },
                 function(response)
                 {
-                    if(!response.error)
-                        $scope.sessions = response;
-                    else
-                        $scope.sessions = [];
+                    $scope.sessions = response.sessions;
                     console.log(response);
                 }
             );

@@ -171,7 +171,7 @@ class wps extends Module
             }
             $sessions = array_unique($sessions);
         }
-        $this->response = $sessions;
+        $this->response = array("sessions" => $sessions);
     }
 
     private function readCrack()
