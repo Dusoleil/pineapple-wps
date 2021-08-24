@@ -34,6 +34,12 @@
                             Scan Length (seconds)
                         </span>
                         <input class="form-control" type="number" ng-model="washTimeout">
+                        <span class="input-group-addon">
+                            Channel
+                        </span>
+                        <select class="form-control" ng-model="channel">
+                            <option ng-repeat="c in ['all',1,2,3,4,5,6,7,8,9,10,11]" ng-init="all">{{ c }}</option>
+                        </select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="washScan()">
                                 <span>

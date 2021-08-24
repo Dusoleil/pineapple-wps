@@ -125,7 +125,10 @@ class wps extends Module
     {
         $this->stopScan();
         unlink($this->washlog);
-        $cmd = "timeout ".$this->request->timeout ." wash -i ".$this->request->interface ." >".$this->washlog;
+        $cmd = "timeout ".$this->request->timeout;
+        $cmd .= " wash -i ".$this->request->interface;
+        $cmd .= $this->request->channel ? " -c ".$this->request->channel : "";
+        $cmd .= " >".$this->washlog;
         $this->execBackground($cmd);
     }
 

@@ -27,6 +27,7 @@ registerController('MainController', ['$api', '$scope', '$cookies', function($ap
 registerController('WashController', ['$api', '$scope', '$interval', function($api, $scope, $interval) {
     $scope.interfaces = [];
     $scope.selectedInterface = "";
+    $scope.channel = "all";
     $scope.washTimeout = 15;
     $scope.scanResults = "";
 
@@ -53,6 +54,7 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
                     module: 'wps',
                     action: 'washScan',
                     interface: $scope.selectedInterface,
+                    channel: $scope.channel === 'all' ? '' : $scope.channel,
                     timeout: $scope.washTimeout
                 },
                 function(response)
