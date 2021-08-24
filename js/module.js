@@ -90,7 +90,7 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
 
     $scope.stopServices = (function()
         {
-            if($parent.autoStopServices)
+            if($scope.$parent.autoStopServices)
                 $scope.stopScan();
             $interval.cancel(scanintervalpromise);
         });
