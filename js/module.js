@@ -101,9 +101,11 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
     $scope.$on('$destroy',$scope.stopServices);
 }]);
 
-registerController('ReaverController', ['$api', '$scope', function($api, $scope) {
+registerController('ReaverController', ['$api', '$scope', '$interval', function($api, $scope, $interval) {
     $scope.interfaces = [];
     $scope.selectedInterface = "";
+    $scope.bssid = "";
+    $scope.crackResults = "";
 
     $scope.getInterfaces = (function()
         {
@@ -121,5 +123,58 @@ registerController('ReaverController', ['$api', '$scope', function($api, $scope)
             );
         });
 
+    $scope.reaverCrack = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'reaverCrack',
+                    interface: $scope.selectedInterface,
+                    bssid: $scope.bssid
+                },
+                function(response)
+                {
+                }
+            );
+        });
+
+    $scope.stopCrack = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'stopCrack'
+                },
+                function(response)
+                {
+                }
+            );
+        });
+
+    $scope.readCrack = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'readCrack',
+                    bssid: $scope.bssid
+                },
+                function(response)
+                {
+                    $scope.crackResults = response.crack;
+                }
+            );
+        });
+
+    $scope.stopServices = (function()
+        {
+            if($scope.$parent.autoStopServices)
+                $scope.stopCrack();
+            $interval.cancel(crackintervalpromise);
+        });
+
     $scope.getInterfaces();
+    $scope.readCrack();
+    let crackintervalpromise = $interval($scope.readCrack,1000);
+    $scope.$on('$destroy',$scope.stopServices);
 }]);

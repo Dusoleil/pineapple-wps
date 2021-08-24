@@ -3,6 +3,7 @@
 class wps extends Module
 {
     private $washlog = "/tmp/washscan.log";
+    private $reaverlogdir = "/tmp/reavercrack/";
 
     public function route()
     {
@@ -21,6 +22,15 @@ class wps extends Module
                 break;
             case 'readScan':
                 $this->readScan();
+                break;
+            case 'reaverCrack':
+                $this->reaverCrack();
+                break;
+            case 'stopCrack':
+                $this->stopCrack();
+                break;
+            case 'readCrack':
+                $this->readCrack();
                 break;
         }
     }
@@ -124,6 +134,33 @@ class wps extends Module
         if(!$scan)
             $scan = "No log found or log empty.  You need to perform a scan first!";
         $this->response = array("scan" => $scan);
+    }
+
+    private function reaverCrack()
+    {
+        $this->stopCrack();
+        if(!file_exists($this->reaverlogdir))
+            mkdir($this->reaverlogdir);
+        $sess = str_replace(":", "", $this->request->bssid);
+        $log = $this->reaverlogdir .$sess .".log";
+        $sessfile = $this->reaverlogdir .$sess .".wpc";
+        $cmd = "reaver -i ".$this->request->interface ." -b ".$this->request->bssid ." -s ".$sessfile ." -vv >>".$log;
+        $this->execBackground($cmd);
+    }
+
+    private function stopCrack()
+    {
+        exec("killall -2 reaver");
+    }
+
+    private function readCrack()
+    {
+        $sess = str_replace(":", "", $this->request->bssid);
+        $log = $this->reaverlogdir .$sess .".log";
+        $crack = @file_get_contents($log);
+        if(!$crack)
+            $crack = "No log found or log empty.  You need to start a crack first!";
+        $this->response = array("crack" => $crack);
     }
 }
 

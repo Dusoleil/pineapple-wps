@@ -67,15 +67,47 @@
                 <h3 class="panel-title">Crack WPS</h3>
             </div>
             <div id="Reaver" class="panel-body panel-collapse collapse in">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        Interface
-                    </span>
-                    <select class="form-control" ng-model="selectedInterface">
-                        <option ng-repeat="interface in interfaces">{{ interface }}</option>
-                    </select>
-                </div>
-                <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
+                <form>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Interface
+                        </span>
+                        <select class="form-control" ng-model="selectedInterface">
+                            <option ng-repeat="interface in interfaces">{{ interface }}</option>
+                        </select>
+                    </div>
+                    <p ng-hide="interfaces.length"><small class="text-warning">No Wireless Interfaces Currently In Monitor Mode!</small></p>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Target BSSID
+                        </span>
+                        <input class="form-control" type="text" ng-model="bssid">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="reaverCrack()">
+                                <span>
+                                    Crack
+                                </span>
+                            </button>
+                            <button class="btn btn-default" ng-click="stopCrack()">
+                                <span>
+                                    Stop Crack
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="col-sm-12">
+                            <span class="pull-right">
+                                <label>
+                                    Auto Stop Services
+                                </label>
+                                <input type="checkbox" ng-model="$parent.autoStopServices" ng-change="toggleAutoStopServices()">
+                            </span>
+                        </span>
+                    </div>
+                </form>
+                <br>
+                <pre class="well">{{ crackResults }}</pre>
             </div>
         </div>
     </div>
