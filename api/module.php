@@ -29,6 +29,9 @@ class wps extends Module
             case 'stopCrack':
                 $this->stopCrack();
                 break;
+            case 'reaverSessions':
+                $this->reaverSessions();
+                break;
             case 'readCrack':
                 $this->readCrack();
                 break;
@@ -151,6 +154,21 @@ class wps extends Module
     private function stopCrack()
     {
         exec("killall -2 reaver");
+    }
+
+    private function reaverSessions()
+    {
+        $sessions = array();
+        $glob = glob($this->reaverlogdir .'*');
+        if($glob)
+        {
+            foreach($glob as $file)
+            {
+                array_push($sessions, trim(chunk_split(pathinfo($file)['filename'],2,':'),':'));
+            }
+            $sessions = array_unique($sessions);
+        }
+        $this->response = $sessions;
     }
 
     private function readCrack()

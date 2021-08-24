@@ -105,6 +105,7 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
     $scope.interfaces = [];
     $scope.selectedInterface = "";
     $scope.bssid = "";
+    $scope.sessions = [];
     $scope.crackResults = "";
 
     $scope.getInterfaces = (function()
@@ -134,6 +135,7 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                 },
                 function(response)
                 {
+                    $scope.reaverSessions();
                 }
             );
         });
@@ -147,6 +149,23 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
                 },
                 function(response)
                 {
+                    $scope.reaverSessions();
+                }
+            );
+        });
+
+    $scope.reaverSessions = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'reaverSessions'
+                },
+                function(response)
+                {
+                    if(!response.error)
+                        $scope.sessions = response;
+                    console.log(response);
                 }
             );
         });
@@ -175,6 +194,7 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
 
     $scope.getInterfaces();
     $scope.readCrack();
+    $scope.reaverSessions();
     let crackintervalpromise = $interval($scope.readCrack,1000);
     $scope.$on('$destroy',$scope.stopServices);
 }]);

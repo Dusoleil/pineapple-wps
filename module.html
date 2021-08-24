@@ -105,6 +105,14 @@
                             </span>
                         </span>
                     </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Session
+                        </span>
+                        <select class="form-control" ng-model="bssid">
+                            <option ng-repeat="session in sessions">{{ session }}</option>
+                        </select>
+                    </div>
                 </form>
                 <br>
                 <pre class="well">{{ crackResults }}</pre>
