@@ -18,10 +18,11 @@ registerController('MainController', ['$api', '$scope', function($api, $scope) {
     );
 }]);
 
-registerController('WashController', ['$api', '$scope', function($api, $scope) {
+registerController('WashController', ['$api', '$scope', '$interval', function($api, $scope, $interval) {
     $scope.interfaces = [];
     $scope.selectedInterface = "";
     $scope.washTimeout = 15;
+    $scope.scanResults = "";
 
     $scope.getInterfaces = (function()
         {
@@ -54,7 +55,24 @@ registerController('WashController', ['$api', '$scope', function($api, $scope) {
             );
         });
 
+    $scope.readScan = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'readScan'
+                },
+                function(response)
+                {
+                    $scope.scanResults = response.scan;
+                }
+            );
+        });
+
     $scope.getInterfaces();
+    $scope.readScan();
+    let scanintervalpromise = $interval($scope.readScan,1000);
+    $scope.$on('$destroy',function(){$interval.cancel(scanintervalpromise);});
 }]);
 
 registerController('ReaverController', ['$api', '$scope', function($api, $scope) {

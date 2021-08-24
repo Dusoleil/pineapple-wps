@@ -16,6 +16,9 @@ class wps extends Module
             case 'washScan':
                 $this->washScan();
                 break;
+            case 'readScan':
+                $this->readScan();
+                break;
         }
     }
 
@@ -105,6 +108,14 @@ class wps extends Module
         unlink($this->washlog);
         $cmd = "timeout ".$this->request->timeout ." wash -i ".$this->request->interface ." >".$this->washlog;
         $this->execBackground($cmd);
+    }
+
+    private function readScan()
+    {
+        $scan = @file_get_contents($this->washlog);
+        if(!$scan)
+            $scan = "No log found or log empty.  You need to perform a scan first!";
+        $this->response = array("scan" => $scan);
     }
 }
 
