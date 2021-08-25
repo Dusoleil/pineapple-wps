@@ -35,6 +35,9 @@ class wps extends Module
             case 'readCrack':
                 $this->readCrack();
                 break;
+            case 'downloadCrack':
+                $this->downloadCrack();
+                break;
             case 'deleteCrack':
                 $this->deleteCrack();
                 break;
@@ -208,6 +211,21 @@ class wps extends Module
                $pass = '';
         }
         $this->response = array("crack" => $crack, "pin" => $pin, "pass" => $pass);
+    }
+
+    private function downloadCrack()
+    {
+        $sess = str_replace(":", "", trim($this->request->bssid));
+        $log = $this->reaverlogdir .$sess .".log";
+        if(!file_exists($log))
+        {
+            $this->response = array("error" => "File Doesn't Exist!");
+        }
+        else
+        {
+            $download = $this->downloadFile($log);
+            $this->response = array("download" => $download);
+        }
     }
 
     private function deleteCrack()

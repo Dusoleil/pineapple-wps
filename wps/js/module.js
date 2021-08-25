@@ -207,6 +207,24 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
             );
         });
 
+    $scope.downloadCrack = (function()
+        {
+            $api.request(
+                {
+                    module: 'wps',
+                    action: 'downloadCrack',
+                    bssid: $scope.bssid
+                },
+                function(response)
+                {
+                    if(!response.error)
+                        window.open('/api/?download=' + response.download, "_blank");
+                    console.log(response);
+                    $scope.reaverSessions();
+                }
+            );
+        });
+
     $scope.deleteCrack = (function()
         {
             $api.request(
