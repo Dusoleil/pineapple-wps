@@ -142,10 +142,28 @@ class wps extends Module
 
     private function readScan()
     {
-        $scan = @file_get_contents($this->washlog);
+        $scan = @file($this->washlog);
         if(!$scan)
-            $scan = "No log found or log empty.  You need to perform a scan first!";
-        $this->response = array("scan" => $scan);
+            $scan = array();
+        else
+        {
+            $scan = array_slice($scan,2);
+            $parse_line = function($l)
+            {
+                $t = preg_split('/ +/',$l);
+                $r = array();
+                $r['bssid'] = $t[0];
+                $r['channel'] = $t[1];
+                $r['rssi'] = $t[2];
+                $r['wps_version'] = $t[3];
+                $r['wps_locked'] = $t[4];
+                $r['vendor'] = count($t) > 6 ? $t[5] : '';
+                $r['essid'] = trim(end($t));
+                return $r;
+            };
+            $scan = array_map($parse_line,$scan);
+        }
+        $this->response = $scan;
     }
 
     private function reaverCrack()

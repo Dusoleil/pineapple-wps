@@ -71,7 +71,73 @@
                     </div>
                 </form>
                 <br>
-                <pre class="well">{{ scanResults }}</pre>
+                <pre class="well" ng-show="scanResults.length==0">No log found or log empty.  You need to perform a scan first!</pre>
+                <div class="well" ng-hide="scanResults.length==0">
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <th ng-click="orderByName='essid';reverseSort=!reverseSort">
+                                ESSID
+                                <span ng-show="orderByName=='essid'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                            <th ng-click="orderByName='bssid';reverseSort=!reverseSort">
+                                BSSID
+                                <span ng-show="orderByName=='bssid'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                            <th ng-click="orderByName='vendor';reverseSort=!reverseSort">
+                                Vendor
+                                <span ng-show="orderByName=='vendor'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                            <th ng-click="orderByName='channel';reverseSort=!reverseSort">
+                                Channel
+                                <span ng-show="orderByName=='channel'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                            <th ng-click="orderByName='rssi';reverseSort=!reverseSort">
+                                Power (dBm)
+                                <span ng-show="orderByName=='rssi'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                            <th ng-click="orderByName='wps_version';reverseSort=!reverseSort">
+                                WPS Version
+                                <span ng-show="orderByName=='wps_version'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                            <th ng-click="orderByName='wps_locked';reverseSort=!reverseSort">
+                                Locked
+                                <span ng-show="orderByName=='wps_locked'">
+                                    <span class="caret" ng-show="reverseSort"></span>
+                                    <span class="caret caret-reversed" ng-hide="reverseSort"></span>
+                                </span>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ap in scanResults|orderBy:orderByName:reverseSort" class="active">
+                                <td>{{ ap.essid }}</td>
+                                <td>{{ ap.bssid }}</td>
+                                <td>{{ ap.vendor }}</td>
+                                <td>{{ ap.channel }}</td>
+                                <td>{{ ap.rssi }}</td>
+                                <td>{{ ap.wps_version }}</td>
+                                <td>{{ ap.wps_locked }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="panel panel-default" ng-controller="ReaverController">

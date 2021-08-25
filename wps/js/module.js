@@ -29,7 +29,7 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
     $scope.selectedInterface = "";
     $scope.channel = "all";
     $scope.washTimeout = "15";
-    $scope.scanResults = "";
+    $scope.scanResults = [];
 
     $scope.getInterfaces = (function()
         {
@@ -85,7 +85,9 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
                 },
                 function(response)
                 {
-                    $scope.scanResults = response.scan;
+                    $scope.scanResults = [];
+                    if(!response.error && response.length != 0)
+                        $scope.scanResults = response;
                 }
             );
         });
