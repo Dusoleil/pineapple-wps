@@ -120,7 +120,7 @@ class wps extends Module
     private function getInterfaces()
     {
         $interfaces = array();
-        exec("iwconfig 2>/dev/null | grep 'wlan' | grep 'mon' | awk '{print $1}'",$interfaces);
+        exec("iwconfig 2>/dev/null | awk '/wlan.*mon/ {print $1}'",$interfaces);
         $this->response = array("interfaces" => $interfaces);
     }
 
@@ -191,7 +191,8 @@ class wps extends Module
             $log = $this->reaverlogdir .$sess .".log";
             if(file_exists($log))
             {
-                exec('grep "ESSID:" '.$log ." | awk '{print substr($6,1,length($6)-1)}'", $essid);
+                exec("awk '/ESSID:/ {\$1=$2=$3=$4=$5=\"\";print substr($0,6,length($0)-6)}' ".$log, $essid);
+
                 $essid = end($essid);
                 if(!$essid)
                     $essid = $bssid;
@@ -216,11 +217,11 @@ class wps extends Module
         $pass = '';
         if($crack)
         {
-            exec('grep "WPS pin:" '.$log ." | awk '{print $4}'", $pin);
+            exec("awk '/WPS pin:/ {print $4}' ".$log, $pin);
             $pin = end($pin);
             if(!$pin)
                 $pin = '';
-            exec('grep "WPA PSK:" '.$log ." | awk '{print $4}'", $pass);
+            exec("awk '/WPA PSK:/ {print substr($4,2,length($4)-2)}' ".$log, $pass);
             $pass = end($pass);
             if(!$pass)
                 $pass = '';
