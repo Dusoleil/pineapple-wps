@@ -128,7 +128,7 @@
                         <tbody>
                             <tr ng-repeat="ap in scanResults|orderBy:orderByName:reverseSort" class="active">
                                 <td>{{ ap.essid }}</td>
-                                <td>{{ ap.bssid }}</td>
+                                <td><span style="color:rgb(0,0,0);">{{ ap.bssid }}</span></td>
                                 <td>{{ ap.vendor }}</td>
                                 <td>{{ ap.channel }}</td>
                                 <td>{{ ap.rssi }}</td>
