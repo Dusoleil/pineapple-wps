@@ -138,7 +138,7 @@
                             Session
                         </label>
                         <select id="reaver-session" class="form-control" ng-model="bssid" ng-change="changeSession()">
-                            <option ng-repeat="session in sessions">{{ session }}</option>
+                            <option ng-repeat="session in sessions" value="{{ session.bssid }}">{{ session.essid }}</option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="downloadCrack()">

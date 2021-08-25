@@ -173,15 +173,30 @@ class wps extends Module
 
     private function reaverSessions()
     {
-        $sessions = array();
+        $sessfiles = array();
         $glob = glob($this->reaverlogdir .'*');
         if($glob)
         {
             foreach($glob as $file)
             {
-                array_push($sessions, trim(chunk_split(pathinfo($file)['filename'],2,':'),':'));
+                array_push($sessfiles, pathinfo($file)['filename']);
             }
-            $sessions = array_unique($sessions);
+            $sessfiles = array_unique($sessfiles);
+        }
+        $sessions = array();
+        foreach($sessfiles as $sess)
+        {
+            $bssid = trim(chunk_split($sess,2,':'),':');
+            $essid = $bssid;
+            $log = $this->reaverlogdir .$sess .".log";
+            if(file_exists($log))
+            {
+                exec('grep "ESSID:" '.$log ." | awk '{print substr($6,1,length($6)-1)}'", $essid);
+                $essid = end($essid);
+                if(!$essid)
+                    $essid = $bssid;
+            }
+            array_push($sessions, array("bssid" => $bssid,"essid" => $essid));
         }
         $this->response = array("sessions" => $sessions);
     }
