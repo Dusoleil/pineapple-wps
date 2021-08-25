@@ -101,6 +101,7 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
     $scope.readScan();
     let scanintervalpromise = $interval($scope.readScan,1000);
     $scope.$on('$destroy',$scope.stopServices);
+    $(window).bind("beforeunload",$scope.stopServices);
 }]);
 
 registerController('ReaverController', ['$api', '$scope', '$interval', function($api, $scope, $interval) {
@@ -239,4 +240,5 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
     $scope.reaverSessions();
     let crackintervalpromise = $interval($scope.readCrack,1000);
     $scope.$on('$destroy',$scope.stopServices);
+    $(window).bind("beforeunload",$scope.stopServices);
 }]);
