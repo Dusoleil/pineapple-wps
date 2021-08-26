@@ -95,6 +95,7 @@ registerController('WashController', ['$api', '$scope', '$rootScope', '$interval
 
     $scope.selectTarget = (function(ap)
         {
+            $scope.stopScan();
             $rootScope.$broadcast($scope.$parent.targetSelectEvent, ap, $scope.channel);
         });
 
