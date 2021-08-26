@@ -3,6 +3,7 @@ registerController('MainController', ['$api', '$scope', '$cookies', function($ap
     $scope.depsgood = false;
     $scope.depserr = "";
     $scope.autoStopServices = $cookies.get("wpsmod-AutoStopServices") === 'true' ?? false;
+    $scope.targetSelectEvent = 'ReaverTargetSelect';
 
     $scope.toggleAutoStopServices = (function()
         {
@@ -24,7 +25,7 @@ registerController('MainController', ['$api', '$scope', '$cookies', function($ap
     );
 }]);
 
-registerController('WashController', ['$api', '$scope', '$interval', function($api, $scope, $interval) {
+registerController('WashController', ['$api', '$scope', '$rootScope', '$interval', function($api, $scope, $rootScope, $interval) {
     $scope.interfaces = [];
     $scope.selectedInterface = "";
     $scope.channel = "all";
@@ -92,6 +93,11 @@ registerController('WashController', ['$api', '$scope', '$interval', function($a
             );
         });
 
+    $scope.selectTarget = (function(bssid)
+        {
+            $rootScope.$broadcast($scope.$parent.targetSelectEvent, bssid);
+        });
+
     $scope.stopServices = (function()
         {
             if($scope.$parent.autoStopServices)
@@ -133,7 +139,7 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
             );
         });
 
-    runReaver = (function(pin)
+    let runReaver = (function(pin)
         {
             $api.request(
                 {
@@ -248,6 +254,11 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
             $scope.password = '';
         });
 
+    let onTargetSelect = (function(event, bssid)
+        {
+            $scope.bssid = bssid;
+        });
+
     $scope.stopServices = (function()
         {
             if($scope.$parent.autoStopServices)
@@ -259,6 +270,8 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
     $scope.readCrack();
     $scope.reaverSessions();
     let crackintervalpromise = $interval($scope.readCrack,1000);
+    let targetSelectEvent = $scope.$on($scope.$parent.targetSelectEvent, onTargetSelect);
+    $scope.$on('$destroy',targetSelectEvent);
     $scope.$on('$destroy',$scope.stopServices);
     $(window).bind("beforeunload",$scope.stopServices);
 }]);
