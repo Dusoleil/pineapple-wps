@@ -14,15 +14,15 @@
         </div>
     </div>
     <div ng-show="depsdone && depsgood">
-        <div class="panel panel-default" ng-controller="WashController">
-            <div class="panel-heading" ng-model="collapse" ng-click="collapse=!collapse" data-toggle="collapse" data-target="#Wash">
+        <div id="Wash" class="panel panel-default" ng-controller="WashController">
+            <div class="panel-heading" ng-model="collapse" ng-click="collapse=!collapse" data-toggle="collapse" data-target="#WashContent">
                 <h3 class="panel-title">
                     Scan For WPS Enabled APs
                     <span class="pull-right" ng-show="collapse">&#9650</span>
                     <span class="pull-right" ng-hide="collapse">&#9660</span>
                 </h3>
             </div>
-            <div id="Wash" class="panel-body panel-collapse collapse in">
+            <div id="WashContent" class="panel-body panel-collapse collapse in">
                 <form>
                     <div class="input-group">
                         <label for="wash-interface" class="input-group-addon">
@@ -140,15 +140,15 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default" ng-controller="ReaverController">
-            <div class="panel-heading" ng-model="collapse" ng-click="collapse=!collapse" data-toggle="collapse" data-target="#Reaver">
+        <div id="Reaver" class="panel panel-default" ng-controller="ReaverController">
+            <div class="panel-heading" ng-model="collapse" ng-click="collapse=!collapse" data-toggle="collapse" data-target="#ReaverContent">
                 <h3 class="panel-title">
                     Crack WPS
                     <span class="pull-right" ng-show="collapse">&#9650</span>
                     <span class="pull-right" ng-hide="collapse">&#9660</span>
                 </h3>
             </div>
-            <div id="Reaver" class="panel-body panel-collapse collapse in">
+            <div id="ReaverContent" class="panel-body panel-collapse collapse in">
                 <form>
                     <div class="input-group">
                         <label for="reaver-interface" class="input-group-addon">

@@ -97,6 +97,7 @@ registerController('WashController', ['$api', '$scope', '$rootScope', '$interval
         {
             $scope.stopScan();
             $rootScope.$broadcast($scope.$parent.targetSelectEvent, ap, $scope.channel);
+            $('#Reaver')[0].scrollIntoView({behavior:"smooth"})
         });
 
     $scope.stopServices = (function()
