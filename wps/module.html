@@ -126,7 +126,7 @@
                             </th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="ap in scanResults|orderBy:orderByName:reverseSort" class="active" ng-click="selectTarget(ap.bssid)">
+                            <tr ng-repeat="ap in scanResults|orderBy:orderByName:reverseSort" class="active" ng-click="selectTarget(ap)">
                                 <td>{{ ap.essid }}</td>
                                 <td><span style="color:rgb(0,0,0);">{{ ap.bssid }}</span></td>
                                 <td>{{ ap.vendor }}</td>

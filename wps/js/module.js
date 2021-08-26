@@ -93,9 +93,9 @@ registerController('WashController', ['$api', '$scope', '$rootScope', '$interval
             );
         });
 
-    $scope.selectTarget = (function(bssid)
+    $scope.selectTarget = (function(ap)
         {
-            $rootScope.$broadcast($scope.$parent.targetSelectEvent, bssid);
+            $rootScope.$broadcast($scope.$parent.targetSelectEvent, ap, $scope.channel);
         });
 
     $scope.stopServices = (function()
@@ -254,9 +254,10 @@ registerController('ReaverController', ['$api', '$scope', '$interval', function(
             $scope.password = '';
         });
 
-    let onTargetSelect = (function(event, bssid)
+    let onTargetSelect = (function(event, ap, channel)
         {
-            $scope.bssid = bssid;
+            $scope.bssid = ap.bssid;
+            $scope.channel = channel==='all' ? 'auto' : channel;
         });
 
     $scope.stopServices = (function()
