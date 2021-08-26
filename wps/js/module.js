@@ -20,7 +20,7 @@ registerController('MainController', ['$api', '$scope', '$cookies', function($ap
             $scope.depsdone = true;
             $scope.depsgood = response.deps;
             $scope.depserr = response.error;
-            console.log(response)
+            console.log(response);
         }
     );
 }]);
