@@ -72,7 +72,7 @@
                 </form>
                 <br>
                 <pre class="well" ng-show="scanResults.length==0">No log found or log empty.  You need to perform a scan first!</pre>
-                <div class="well" ng-hide="scanResults.length==0">
+                <div class="well table-responsive" ng-hide="scanResults.length==0" style="max-height:40em;overflow-y:auto">
                     <table class="table table-condensed table-hover">
                         <thead>
                             <th ng-click="orderByName='essid';reverseSort=!reverseSort">
