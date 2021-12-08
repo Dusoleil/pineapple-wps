@@ -265,12 +265,12 @@
                             <option ng-repeat="session in sessions" value="{{ session.bssid }}">{{ session.essid }}</option>
                         </select>
                         <span class="input-group-btn">
-                            <button class="btn btn-default hidden-xs hidden-sm" ng-click="downloadCrack()">
+                            <button class="btn btn-default" ng-click="downloadCrack()">
                                 <span>
                                     Download Log
                                 </span>
                             </button>
-                            <button class="btn btn-default" ng-click="deleteCrack()">
+                            <button class="btn btn-default hidden-xs hidden-sm" ng-click="deleteCrack()">
                                 <span>
                                     Delete
                                 </span>
